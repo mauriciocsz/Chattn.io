@@ -16,6 +16,13 @@ router.use(express.static(path.resolve(__dirname+'/../view')));
 // Handles the login authentication
 router.post('/login', authController.login)
 
+// Logs out the user
+router.post('/logout', (req,res) =>{
+    req.session.destroy( () =>{
+        res.json('Logout executado com sucesso.')
+    })
+})
+
 // If the user's session is null/undefined he 
 // won't be able to access any routes below.
 router.use((req, res, next) =>{
