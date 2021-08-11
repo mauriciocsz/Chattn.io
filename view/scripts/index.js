@@ -19,3 +19,22 @@ function newMsg(user, msg){
 
     $(".messagesDiv").append(text);
 }
+
+//Placeholder login function
+function postLogin(){
+    $.ajax({
+        url:"/login",
+        dataType:"json",
+        type:"post",
+        data:{
+            nome: "nome",
+            senha: "senha"
+        },
+        success:function(result){
+
+        },
+        complete:function(result){
+            console.log(result)
+        }
+    })
+}
