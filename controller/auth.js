@@ -27,4 +27,10 @@ async function login(req, res){
     
 }
 
-module.exports = {login}
+function logout(req, res){
+    req.session.destroy( () =>{
+        res.json('Logout executado com sucesso.')
+    })
+}
+
+module.exports = {login,logout}
