@@ -4,6 +4,7 @@ const router = express.Router();
 
 //Controllers
 const authController = require('./../controller/auth')
+const messageController = require('./../controller/message')
 const middlewares = require('./../controller/middleware')
 
 router.use(express.json());
@@ -29,5 +30,7 @@ router.use(middlewares.sessionAuth);
 router.get('/check', (req,res)=>{
     res.json("olá, "+req.session.username);
 })
+
+router.post('/sendMessage', messageController.send)
 
 module.exports = router;
