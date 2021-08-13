@@ -9,22 +9,22 @@ async function login(req, res){
     try{
         let user = await users.retrieveUserByName(nome);
         if(!user.res){
-            res.json(user.res.msg)
+            res.status(400).send(user.res.msg)
             return;
         }else if (user.data==undefined){
-            res.send('Usuário não encontrado!')
+            res.status(404).send('Usuário não encontrado!')
             return;
         }
         bcrypt.compare(senha, user.data.senha).then(result =>{
         if(result){
             req.session.username = user.data.nome;
-            res.json("Login efetuado.")
+            res.status(200).send("Login efetuado.")
         }
         else
-            res.json("Um erro ocorreu, cheque seu usuário e senha e tente novamente.");
+            res.status(400).send("Um erro ocorreu, cheque seu usuário e senha e tente novamente.");
         })
     }catch(err){
-        res.json("Um erro ocorreu! Tente novamente mais tarde.")
+        res.status(400).send("Um erro ocorreu! Tente novamente mais tarde.")
     }
 
     
@@ -32,7 +32,7 @@ async function login(req, res){
 
 function logout(req, res){
     req.session.destroy( () =>{
-        res.json('Logout executado com sucesso.')
+        res.status(200).send('Logout executado com sucesso.')
     })
 }
 
