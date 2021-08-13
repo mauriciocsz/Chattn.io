@@ -16,6 +16,8 @@ router.get('/', (req,res) =>{
 
 router.use(express.static(path.resolve(__dirname+'/../view')));
 
+router.post('/register', authController.register)
+
 // Handles the login authentication
 router.post('/login', authController.login)
 

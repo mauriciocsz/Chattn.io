@@ -12,4 +12,14 @@ async function retrieveUserByName(nome){
     
 }
 
-module.exports = {retrieveUserByName}
+async function registerNewUser(nome, senha, public, private){
+    result = await query ("INSERT INTO tb_users (nome,senha,public_key,private_key) values ($1,$2,$3,$4);",[nome,senha,public,private]);
+
+    if(data==-1)
+        return ({res:0, msg:"Um erro ocorreu! Tente novamente mais tarde."});
+    else{
+        return data;
+    }
+}
+
+module.exports = {retrieveUserByName,registerNewUser}
