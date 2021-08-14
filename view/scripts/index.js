@@ -22,13 +22,17 @@ function newMsg(user, msg){
 
 //Placeholder login function
 function postLogin(){
+
+    let user = $('#login').val()
+    let pwd = $('#pass').val()
+
     $.ajax({
         url:"/login",
         dataType:"json",
         type:"post",
         data:{
-            nome: "nome",
-            senha: "senha"
+            nome: user,
+            senha: pwd
         },
         success:function(result){
 
