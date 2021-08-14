@@ -1,6 +1,7 @@
 const express = require('express');
 const app = new express();
 const session = require('express-session');
+const storage = require('./redis/storage')
 
 const {RedisStore, redisClient} = require('./redis/client')
 
@@ -17,6 +18,9 @@ app.use(session({
         maxAge: 1000 * 60 * 60 // 1h
     }
 }));
+
+//Sets all keys on boot
+storage.setAllKeys();
 
 var http = require('http').createServer(app);
 

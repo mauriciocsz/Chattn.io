@@ -18,6 +18,7 @@ async function login(req, res){
         bcrypt.compare(senha, user.data.senha).then(result =>{
         if(result){
             req.session.username = user.data.nome;
+            req.session.private_key = user.data.private_key;
             res.status(200).send("Login efetuado.")
         }
         else
