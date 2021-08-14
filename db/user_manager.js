@@ -1,4 +1,5 @@
 const query = require("./db_conn");
+const storage = require('./../redis/storage')
 
 //Retrieves an user's data using his username
 async function retrieveUserByName(nome){
@@ -18,6 +19,7 @@ async function registerNewUser(nome, senha, public, private){
     if(data==-1)
         return ({res:0, msg:"Um erro ocorreu! Tente novamente mais tarde."});
     else{
+        storage.setNewKey({nome,public})
         return data;
     }
 }

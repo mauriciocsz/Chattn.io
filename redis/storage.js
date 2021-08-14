@@ -16,7 +16,6 @@ async function getPublicKey(username){
 async function setAllKeys(){
     try{
         let data = await keyMan.retrievePublicKeys()
-        console.log(data.rowCount)
         for(let x=0;x<data.rowCount;x++){
             await setKey('public_keys', data.rows[x].nome, data.rows[x].public_key)
         }
@@ -25,4 +24,12 @@ async function setAllKeys(){
     }
 }
 
-module.exports = {getPublicKey, setAllKeys}
+async function setNewKey(data){
+    try{
+        await setKey('public_keys',data.nome,data.public)
+    }catch(err){
+        console.log(err)
+    }
+}
+
+module.exports = {getPublicKey, setAllKeys, setNewKey}
