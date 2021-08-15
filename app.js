@@ -24,10 +24,12 @@ storage.setAllKeys();
 
 var http = require('http').createServer(app);
 
-var io = require('socket.io')(http);
-
 app.use(require("./src/routes"));
 
 http.listen(process.env.PORT || 3000);
 
 console.log("Running");
+
+//Initializes the socket connection
+const socket = require('./socket/connection')
+socket.setIo(http)
