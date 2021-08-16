@@ -35,4 +35,8 @@ router.get('/check', (req,res)=>{
 
 router.post('/sendMessage', messageController.send)
 
+const socket = require('./../socket/connection')
+
+router.post('/identification', socket.joinChats)
+
 module.exports = router;
