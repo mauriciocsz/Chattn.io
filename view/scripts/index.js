@@ -10,12 +10,33 @@ socket.on('identification', () =>{
             id: socket.id
         },
         success: () =>{
-            //Load other chats
+            //  TODO: Load other chats
         },
         complete: () =>{
 
         }
     })
+})
+
+socket.on('recieveMsg', (msg,id,room) =>{
+    $.ajax({
+        url:"/decodeMessage",
+        dataType:"json",
+        type:"post",
+        data:{
+            encMessage: msg,
+            room: room
+        },
+        success:function(result){
+            // TODO: find out if the message sent was the user's
+            newMsg(0,result+'');
+        },
+        complete:function(result){
+            console.log(result)
+        }
+    })
+
+    
 })
 
 

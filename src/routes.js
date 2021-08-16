@@ -33,6 +33,8 @@ router.get('/check', (req,res)=>{
     res.json("olá, "+req.session.username);
 })
 
+router.post('/decodeMessage', messageController.decrypt)
+
 router.post('/sendMessage', messageController.send)
 
 const socket = require('./../socket/connection')

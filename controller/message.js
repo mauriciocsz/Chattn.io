@@ -1,40 +1,78 @@
 const redisDb = require('./../redis/storage')
 const crypto = require('crypto')
+const keyCryp = require('./../encryption/keys')
+const roomCryp = require('./../encryption/rooms')
 
 async function send (req, res){
+
+    const messageSocket = require('../socket/message')
+
     let {msg, reciever} = req.body;
-    let {privateKey, username} = req.session;
+    let {private_key, username} = req.session;
 
     try{
         let PublicKey = await redisDb.getPublicKey(reciever);
         
+        //  Get the rooms (normal & encrypted)
         let order = [reciever,username].sort() 
-        const roomName= (order[0]+"_"+order[1])
-        
-        //Placeholder Key 
-        let key ='12345678123456781234567812345678'
+        let roomEncryptd = roomCryp.encryptRoom(order[0],order[1]);
+        let roomName= (order[0]+"_"+order[1])
 
+        let key = await keyCryp.getSecret(PublicKey,private_key)
+
+        //  Generate an IV
         const iv = crypto.randomBytes(16);
         let iv64 = iv.toString('base64')
 
-        //Encrypt 
-        const encrypter = crypto.createCipheriv('aes-256-cbc',key,iv);
+        // Generate an cipher and encrypt the message
+        const encrypter = crypto.createCipheriv('aes-256-cbc',Buffer.from(key, 'hex'),iv);
         let result = encrypter.update(msg,'utf8', 'hex')
         result+= encrypter.final('hex')
         result+=" "+iv64
 
+        // TODO: get the message 'code'
+        messageSocket.emitMessage(roomName,result, 2, roomEncryptd);
 
-        //Decrypt
-        let encriptedMsg = result.split(' ')
-        const decrypter = crypto.createDecipheriv('aes-256-cbc',key,Buffer.from(encriptedMsg[1],'base64'));
-        let decriptado = decrypter.update(encriptedMsg[0],'hex','utf-8');
-        decriptado += decrypter.final('utf-8')
-
+        res.sendStatus(200);
         
     }catch(error){
-        console.log(''+error)
+        res.sendStatus(500);
+        console.log(error)
     }
 
 }
 
-module.exports = {send}
+async function decrypt(req, res){
+    let {encMessage, room} = req.body;
+    let {username, private_key} = req.session;
+
+    // Get the users in the chat
+    let usernames = roomCryp.decryptRoom(room)
+
+    //  Find out who's the other user
+    let otherUser;
+    if(username==usernames[0])
+        otherUser = usernames[1]; 
+    else if(username==usernames[1])
+        otherUser = usernames[0]; 
+    else{
+        res.status(401).json('Erro!')
+        return;
+    }
+
+    let PublicKey = await redisDb.getPublicKey(otherUser);
+    let key = await keyCryp.getSecret(PublicKey,private_key)
+
+    
+    // Split the Encrypted message and the IV
+    let encriptedMsg = encMessage.split(' ')
+
+    //Decrypt the message
+    const decrypter = crypto.createDecipheriv('aes-256-cbc',Buffer.from(key, 'hex'),Buffer.from(encriptedMsg[1],'base64'));
+    let decriptado = decrypter.update(encriptedMsg[0],'hex','utf-8');
+    decriptado += decrypter.final('utf-8')
+
+    res.json(decriptado)
+}
+
+module.exports = {send,decrypt}
