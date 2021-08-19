@@ -7,7 +7,7 @@ async function send (req, res){
 
     const messageSocket = require('../socket/message')
 
-    let {msg, reciever} = req.body;
+    let {msg, reciever, id} = req.body;
     let {private_key, username} = req.session;
 
     try{
@@ -30,8 +30,7 @@ async function send (req, res){
         result+= encrypter.final('hex')
         result+=" "+iv64
 
-        // TODO: get the message 'code'
-        messageSocket.emitMessage(roomName,result, 2, roomEncryptd);
+        messageSocket.emitMessage(roomName,result, id, roomEncryptd);
 
         res.sendStatus(200);
         

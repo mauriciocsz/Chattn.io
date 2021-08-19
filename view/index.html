@@ -8,18 +8,21 @@
         <input type='text' id='login'>
         <input type='password' id='pass'>
         <button onclick="postLogin()"> Logar</button>
+        <button onclick="logout()"> Logout</button>
+        <input type='text' id='user'>
             <div class="chatBody">
                 <div class="messagesDiv">
                     <!--<div class="messageClient">
                          <label class="lblText">Bom dia a todos! Como vocês estão?</label> !
                     </div>-->
                     <br>
-                    <!--<div class="messageServer">
-                        <label label class="lblText">Bem</label>
-                    </div>-->
+                    <div class="messageServer" style="width:0; height: 0; min-width: 0; min-height: 0; padding: 0;">
+                        
+                    </div>
                 </div>
                 <div class="boxArea" >
                     <textarea class="form-control" id="textBox" rows="1" placeholder="Digite algo!"  maxlength="6000"></textarea>
+                    <button id='btn_send' onclick="sendMsg()">Enviar</button>
                 </div>
         </div>
         

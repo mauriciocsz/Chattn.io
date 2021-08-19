@@ -1,5 +1,7 @@
 const socket = io();
 
+let myid = Math.floor(Math.random() * 10000);
+
 socket.on('identification', () =>{
 
     $.ajax({
@@ -29,6 +31,13 @@ socket.on('recieveMsg', (msg,id,room) =>{
         },
         success:function(result){
             // TODO: find out if the message sent was the user's
+                //alert(id+" "+myid)
+                if(id==myid){
+                    $('#'+id).remove();
+                    newMsg(1,result+'');
+                    return
+                }
+
             newMsg(0,result+'');
         },
         complete:function(result){
@@ -39,14 +48,44 @@ socket.on('recieveMsg', (msg,id,room) =>{
     
 })
 
+function sendMsg(){
+    let msg = $('#textBox').val();
+
+
+
+    if(!msg.trim().length)
+        return;
+    let user = $('#user').val();
+
+    $('#textBox').val("")
+
+    newMsg(1,msg,1,myid);
+
+    $.ajax({
+        url:"/sendMessage",
+        dataType:"text",
+        type: "post",
+        data:{
+            msg,
+            reciever: user,
+            id: myid
+        }
+    })
+}
+
 
 //Creates a new message in the chat
-function newMsg(user, msg, valor){
+function newMsg(user, msg, valor, id){
+
+    if (id==undefined){
+        id = " " 
+    }
 
     if(valor==undefined)
         valor=''
     else
         valor='opacity:0.25'
+
     let type=""
     switch(user){
         case 0:
@@ -58,12 +97,15 @@ function newMsg(user, msg, valor){
         default:
             return;
     }
-    var text = $("<div class='"+type+"' style='"+valor+"'><div>");
+    var text = $("<div id='"+id+"'class='"+type+"' style='"+valor+"'><div>");
     var lbl = $("<label class='lblText'></label>");
     lbl.text(msg)
     text.append(lbl);
 
     $(".messagesDiv").append(text);
+
+    var div = $('.messagesDiv');
+    div.scrollTop(div.prop("scrollHeight"));
 }
 
 //Placeholder login function
@@ -86,5 +128,13 @@ function postLogin(){
         complete:function(result){
             console.log(result)
         }
+    })
+}
+
+function logout(){
+    $.ajax({
+        url:"/logout",
+        dataType:"json",
+        type:"post"
     })
 }
