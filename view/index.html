@@ -11,6 +11,9 @@
         <button onclick="logout()"> Logout</button>
         <input type='text' id='user'>
             <div class="chatBody">
+                <div class="currentChat" style="width: 70%;margin: 0;float: right;display: block;">
+
+                
                 <div class="messagesDiv">
                     <!--<div class="messageClient">
                          <label class="lblText">Bom dia a todos! Como vocês estão?</label> !
@@ -23,6 +26,18 @@
                 <div class="boxArea" >
                     <textarea class="form-control" id="textBox" rows="1" placeholder="Digite algo!"  maxlength="6000"></textarea>
                     <button id='btn_send' onclick="sendMsg()">Enviar</button>
+                </div>
+
+                </div>
+                <div class="chatList" style="height: 100%;width: 30%;margin: 0;float: left; overflow-y: scroll;">
+                    <div class="chatRectangle" style="display: inline-flex;">
+                        <img src="./stylesheets/resources/usercircle.png" style="width: 20%;display: flex;display: block;height: 100%;">
+                        <div style="margin-left: 5%;">
+                            <label style="margin: 5%;margin-left: 0;margin-bottom: 0;font-size:x-large; width: 100%;">Nome da Pessoa</label><br>
+                            <label style="font-size: larger;opacity: 50%;width: 100%;">Hmmm</label>
+                        </div>
+                        
+                    </div>
                 </div>
         </div>
         
