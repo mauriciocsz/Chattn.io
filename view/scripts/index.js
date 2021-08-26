@@ -48,6 +48,10 @@ socket.on('recieveMsg', (msg,id,room) =>{
     
 })
 
+socket.on('recieveFriends', (relations) => {
+    relations.forEach( relation => genNewChat(relation));
+})
+
 function sendMsg(){
     let msg = $('#textBox').val();
 
@@ -137,4 +141,17 @@ function logout(){
         dataType:"json",
         type:"post"
     })
+}
+
+function genNewChat(relation){
+    let rectangle =$("#baseChat").clone();
+    rectangle.click(() => alert('Placeholder action'))
+    rectangle.attr("id",""+relation);
+    rectangle.css("display","inline-flex")
+
+    let text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    rectangle.find(".text").text(text.substr(0,30)+"...");
+
+    rectangle.find(".nameUser").text(""+relation);
+    rectangle.appendTo(".chatList");
 }

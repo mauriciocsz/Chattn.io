@@ -112,4 +112,5 @@
     height: 15%;
     background-color: rgb(115, 182, 218);
     padding: 5%;
+    border-bottom: 1px solid rgba(57, 110, 139, 0.794);
 }

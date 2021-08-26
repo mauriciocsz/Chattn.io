@@ -36,9 +36,16 @@ async function joinChats(req, res){
 
     //Connect to every 'friend' he has
     let relations = await relMann.getRelations(user);
+    let relationsArray = relations.map( (value,index,array) => {
+        if(value.user1==user)
+            return value.user2;
+            return value.user1;
+    })
     for(let x=0;x<relations.length;x++){
         socket.join(relations[x].user1 +"_"+relations[x].user2)
     }
+
+    socket.emit('recieveFriends',relationsArray);
 
     res.sendStatus(200);
 }
