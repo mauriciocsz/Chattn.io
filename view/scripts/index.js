@@ -1,6 +1,9 @@
 const socket = io();
-
+//Random ID that our questions will have
 let myid = Math.floor(Math.random() * 10000);
+
+//Current chat open on-screen
+let currentUser ="";
 
 socket.on('identification', () =>{
 
@@ -10,12 +13,6 @@ socket.on('identification', () =>{
         type:'post',
         data:{
             id: socket.id
-        },
-        success: () =>{
-            //  TODO: Load other chats
-        },
-        complete: () =>{
-
         }
     })
 })
@@ -30,15 +27,13 @@ socket.on('recieveMsg', (msg,id,room) =>{
             room: room
         },
         success:function(result){
-            // TODO: find out if the message sent was the user's
-                //alert(id+" "+myid)
                 if(id==myid){
                     $('#'+id).remove();
-                    newMsg(1,result+'');
+                    newMsg(1,result);
                     return
                 }
 
-            newMsg(0,result+'');
+            newMsg(0,result);
         },
         complete:function(result){
             console.log(result)
@@ -50,20 +45,16 @@ socket.on('recieveMsg', (msg,id,room) =>{
 
 socket.on('recieveFriends', (relations) => {
     relations.forEach( relation => genNewChat(relation));
+    loadChat(relations[0])
 })
 
 function sendMsg(){
     let msg = $('#textBox').val();
-
-
-
     if(!msg.trim().length)
         return;
-    let user = $('#user').val();
 
     $('#textBox').val("")
-
-    newMsg(1,msg,1,myid);
+    newMsg(1,{"msg":msg},1,myid);
 
     $.ajax({
         url:"/sendMessage",
@@ -71,15 +62,14 @@ function sendMsg(){
         type: "post",
         data:{
             msg,
-            reciever: user,
+            reciever: currentUser,
             id: myid
         }
     })
 }
 
-
 //Creates a new message in the chat
-function newMsg(user, msg, valor, id){
+function newMsg(user, data, valor, id){
 
     if (id==undefined){
         id = " " 
@@ -103,10 +93,12 @@ function newMsg(user, msg, valor, id){
     }
     var text = $("<div id='"+id+"'class='"+type+"' style='"+valor+"'><div>");
     var lbl = $("<label class='lblText'></label>");
-    lbl.text(msg)
+    lbl.text(data["msg"])
     text.append(lbl);
 
-    $(".messagesDiv").append(text);
+    let chat = $("#chat_"+data["user"]);
+
+    chat.find(".messagesDiv").append(text);
 
     var div = $('.messagesDiv');
     div.scrollTop(div.prop("scrollHeight"));
@@ -145,7 +137,7 @@ function logout(){
 
 function genNewChat(relation){
     let rectangle =$("#baseChat").clone();
-    rectangle.click(() => alert('Placeholder action'))
+    rectangle.click(() => loadChat(relation))
     rectangle.attr("id",""+relation);
     rectangle.css("display","inline-flex")
 
@@ -154,4 +146,29 @@ function genNewChat(relation){
 
     rectangle.find(".nameUser").text(""+relation);
     rectangle.appendTo(".chatList");
+}
+
+function loadChat(user){
+
+    let rectangle =$("#baseChat").find(".nameUser").text();
+    currentUser=user;
+
+    let chat = $(".chatBody").find("#chat_"+user)
+    if(!chat.length){
+        createChat(user);
+        return;
+    }
+
+    $(".chatBody").find(".currentChat").css("display","none");
+    chat.css("display","block");
+}
+
+function createChat(user){
+
+    let newChat = $("#baseCurrChat").clone();
+    newChat.attr("id", "chat_"+user);
+    newChat.appendTo(".chatBody");
+
+    loadChat(user);
+
 }

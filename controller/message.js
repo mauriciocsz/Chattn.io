@@ -10,6 +10,8 @@ async function send (req, res){
     let {msg, reciever, id} = req.body;
     let {private_key, username} = req.session;
 
+    //  Check if you recieved all the data correctly before doing anything
+
     try{
         let PublicKey = await redisDb.getPublicKey(reciever);
         
@@ -71,7 +73,7 @@ async function decrypt(req, res){
     let decriptado = decrypter.update(encriptedMsg[0],'hex','utf-8');
     decriptado += decrypter.final('utf-8')
 
-    res.json(decriptado)
+    res.json({msg:decriptado, user:otherUser})
 }
 
 module.exports = {send,decrypt}
