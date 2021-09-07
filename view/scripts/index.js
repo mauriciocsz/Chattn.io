@@ -97,11 +97,19 @@ function newMsg(user, data, valor, id){
     text.append(lbl);
 
     let chat = $("#chat_"+data["user"]);
+    let chatBox = $("#"+data["user"]);
+
+    // TODO: add a notification appearence to the rectangle
+    chatBox.insertBefore($(".chatRectangle").first());
+
+    //TODO: change this length based on the screen size
+    if(data["msg"].length>25)
+        data["msg"] = data["msg"].substr(0,25)+"...";
+    chatBox.find(".text").text(data["msg"]);
 
     chat.find(".messagesDiv").append(text);
 
-    var div = $('.messagesDiv');
-    div.scrollTop(div.prop("scrollHeight"));
+    chat.find(".messagesDiv").scrollTop(chat.find(".messagesDiv").prop("scrollHeight"));
 }
 
 //Placeholder login function
