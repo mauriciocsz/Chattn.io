@@ -142,15 +142,14 @@ function logout(){
         type:"post"
     })
 }
-
+// Creates the chat rectangle
 function genNewChat(relation){
     let rectangle =$("#baseChat").clone();
     rectangle.click(() => loadChat(relation))
     rectangle.attr("id",""+relation);
     rectangle.css("display","inline-flex")
-
-    let text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-    rectangle.find(".text").text(text.substr(0,30)+"...");
+    
+    rectangle.find(".text").text("");
 
     rectangle.find(".nameUser").text(""+relation);
     rectangle.appendTo(".chatList");
@@ -158,7 +157,7 @@ function genNewChat(relation){
 
 function loadChat(user){
 
-    let rectangle =$("#baseChat").find(".nameUser").text();
+    let rectangle = $("#"+user);
     currentUser=user;
 
     let chat = $(".chatBody").find("#chat_"+user)
@@ -168,9 +167,12 @@ function loadChat(user){
     }
 
     $(".chatBody").find(".currentChat").css("display","none");
+    $(".chatRectangle").css("background-color","white")
+    rectangle.css("background-color","rgb(226, 226, 226)")
     chat.css("display","block");
 }
 
+//Creates the chat where all the messages will reside
 function createChat(user){
 
     let newChat = $("#baseCurrChat").clone();
