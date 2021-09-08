@@ -5,10 +5,12 @@
     </head>
 
     <body class="bg" >
-        <input type='text' id='login'>
-        <input type='password' id='pass'>
-        <button onclick="postLogin()"> Logar</button>
-        <button onclick="logout()"> Logout</button>
+        <div style="display: none;">
+            <input type='text' id='login'>
+            <input type='password' id='pass'>
+            <button onclick="postLogin()"> Logar</button>
+            <button onclick="logout()"> Logout</button>
+        </div>
             <div class="chatBody">
                 <div id="baseCurrChat" class="currentChat" style="width: 70%;margin: 0;float: right;display: none;">
 
@@ -27,12 +29,12 @@
                     <textarea class="form-control" id="textBox" rows="1" placeholder="Digite algo!"  maxlength="6000"></textarea>
                     <button id='btn_send' onclick="sendMsg()">Enviar</button>
                 </div>
-                <div class="chatList" style="height: 100%;width: 30%;margin: 0;float: left; overflow-y: scroll; ">
+                <div class="chatList" >
                     <div id="baseChat" class="chatRectangle" style="display: none;cursor: pointer;">
-                        <img src="./stylesheets/resources/usercircle.png" style="width: 20%;display: flex;display: block;height: 100%; min-width: 80px; max-height: 90px;">
-                        <div style="margin-left: 5%;">
-                            <label class="nameUser" style="margin: 5%;margin-left: 0;margin-bottom: 0;font-size:x-large; width: 100%;cursor: pointer;">Nome da Pessoa</label><br>
-                            <label class="text" style="font-size: larger;opacity: 50%;width: 100%;cursor: pointer;">Hmmm</label>
+                        <img src="./stylesheets/resources/usercircle.png" style="display: flex;display: block;height: 100%; min-width: 5vw; max-height: 5vw;min-height: 10vh;">
+                        <div class="chatRectangleText" style="margin:2.5%;margin-left: 5%;">
+                            <label class="nameUser" style="margin-left: 0;margin-bottom: 0;font-size:1.5vw; width: 100%;cursor: pointer;">Nome da Pessoa</label><br>
+                            <label class="text" style="font-size: 1.25vw;opacity: 50%;width: 100%;cursor: pointer;">Hmmm</label>
                         </div>
                         
                     </div>

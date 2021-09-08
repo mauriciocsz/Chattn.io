@@ -81,12 +81,14 @@ function newMsg(user, data, valor, id){
         valor='opacity:0.25'
 
     let type=""
+    let prefix = ""
     switch(user){
         case 0:
             type="messageServer"
             break;
         case 1:
             type="messageClient"
+            prefix = "Você: "
             break;
         default:
             return;
@@ -103,8 +105,9 @@ function newMsg(user, data, valor, id){
     chatBox.insertBefore($(".chatRectangle").first());
 
     //TODO: change this length based on the screen size
-    if(data["msg"].length>25)
-        data["msg"] = data["msg"].substr(0,25)+"...";
+    data["msg"]= prefix+data["msg"]
+    if(data["msg"].length>22)
+        data["msg"] = (data["msg"]).substr(0,22)+"...";
     chatBox.find(".text").text(data["msg"]);
 
     chat.find(".messagesDiv").append(text);
@@ -147,7 +150,7 @@ function genNewChat(relation){
     let rectangle =$("#baseChat").clone();
     rectangle.click(() => loadChat(relation))
     rectangle.attr("id",""+relation);
-    rectangle.css("display","inline-flex")
+    rectangle.css("display","flex")
     
     rectangle.find(".text").text("");
 
