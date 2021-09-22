@@ -17,6 +17,18 @@ socket.on('identification', () =>{
     })
 })
 
+
+// Messages responsible for checking if an user is
+// online or not, they are notified as soon as a person
+// enters or leaves the chat
+socket.on('roomJoined', (user)=>{
+    $("#"+user).find(".dot").css("display","flex");
+})
+
+socket.on('roomLeft', (user)=>{
+    $("#"+user).find(".dot").css("display","none");
+})
+
 socket.on('recieveMsg', (msg,id,room) =>{
     $.ajax({
         url:"/decodeMessage",
@@ -43,8 +55,9 @@ socket.on('recieveMsg', (msg,id,room) =>{
     
 })
 
-socket.on('recieveFriends', (relations) => {
-    relations.forEach( relation => genNewChat(relation));
+// Recieves all friends and generate the chat for each one of them
+socket.on('recieveFriends', (relations, onlineStatus) => {
+    relations.forEach( (relation, index) => genNewChat(relation,onlineStatus[index]));
     loadChat(relations[0])
 })
 
@@ -146,7 +159,7 @@ function logout(){
     })
 }
 // Creates the chat rectangle
-function genNewChat(relation){
+function genNewChat(relation, onlineStatus){
     let rectangle =$("#baseChat").clone();
     rectangle.click(() => loadChat(relation))
     rectangle.attr("id",""+relation);
@@ -155,6 +168,9 @@ function genNewChat(relation){
     rectangle.find(".text").text("");
 
     rectangle.find(".nameUser").text(""+relation);
+
+    if(onlineStatus)
+        rectangle.find(".dot").css("display","flex");
     rectangle.appendTo(".chatList");
 }
 

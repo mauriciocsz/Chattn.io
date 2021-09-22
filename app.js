@@ -15,7 +15,7 @@ app.use(session({
     cookie: {
         secure: false, //keep it false only for debug purposes
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 // 1h
+        maxAge: 1000 * 60 * 60 * 24 // 24hrs
     }
 }));
 

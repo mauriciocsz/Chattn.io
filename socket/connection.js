@@ -41,11 +41,36 @@ async function joinChats(req, res){
             return value.user2;
             return value.user1;
     })
-    for(let x=0;x<relations.length;x++){
-        socket.join(relations[x].user1 +"_"+relations[x].user2)
-    }
 
-    socket.emit('recieveFriends',relationsArray);
+    // An array that does the initial verification for each chat to
+    // check if the other person is online.
+    let relationsOnline ={};
+
+    for(let x=0;x<relations.length;x++){
+        const rooms = io.of("/").adapter.rooms;
+
+        // TODO: this doesn't work when the client has multiple instances open
+        // I need to fix that, either disabling multiple instances or some other way.
+
+        // If the room is already created, then the other user is online
+        if(rooms.get(relations[x].user1 +"_"+relations[x].user2)==undefined)
+            relationsOnline[x] = false
+        else
+            relationsOnline[x] = true
+
+        // Join the room and notifiy everyone in the room that you did
+        socket.join(relations[x].user1 +"_"+relations[x].user2)
+        socket.to(relations[x].user1 +"_"+relations[x].user2).emit("roomJoined", user);
+        
+    }
+    // On disconnection, tell every room that you've logged off
+    socket.on('disconnecting',()=>{
+        for(let room of socket.rooms)
+            socket.to(room).emit("roomLeft",user);
+        
+    })
+
+    socket.emit('recieveFriends',relationsArray, relationsOnline);
 
     res.sendStatus(200);
 }
