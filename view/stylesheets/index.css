@@ -114,9 +114,18 @@
     padding: 5%;
 }
 
-.chatList{
+.sideMenu{
     height: 100%;width: 30%;margin: 0;float: left; overflow-y: scroll; 
 }
+
+#selectionDiv{
+    background-color: rgb(85,101,132);width: 100%;height: 10%;display: flex;
+}
+
+.sideMenuBtn{
+    width: 50%;height: 100%; background-color: rgb(85,101,132); border: none; color: white;
+}
+
 @media  (max-width: 900px){
 
 
@@ -124,8 +133,17 @@
         display: none;
     }
 
-    .chatList{
-        width: fit-content;
+    .sideMenu{
+        width: 30%;
+    }
+
+    #selectionDiv{
+        height: fit-content;
+        display: block;
+    }
+
+    .sideMenuBtn{
+        width: 100%;
     }
 
     .chatRectangle{
@@ -145,3 +163,12 @@
     right: 0;
     bottom: 0;
 }
+
+.filter-red{
+    filter: invert(32%) sepia(99%) saturate(932%) hue-rotate(334deg) brightness(92%) contrast(95%);
+}
+
+.filter-green{
+    filter: invert(44%) sepia(70%) saturate(3417%) hue-rotate(130deg) brightness(87%) contrast(91%);
+}
+

@@ -171,7 +171,7 @@ function genNewChat(relation, onlineStatus){
 
     if(onlineStatus)
         rectangle.find(".dot").css("display","flex");
-    rectangle.appendTo(".chatList");
+    rectangle.appendTo("#chats");
 }
 
 function loadChat(user){
@@ -200,4 +200,20 @@ function createChat(user){
 
     loadChat(user);
 
+}
+
+// Switches the menu on the left side
+function switchMenu(menu){
+    if(menu){
+        $("#requests").css("display","none");
+        $("#chats").css("display","block");
+        $("#conversasBtn").css("background-color","rgb(70, 82, 107)");
+        $("#requestsBtn").css("background-color","rgb(85,101,132)");
+    }else{
+        $("#chats").css("display","none");
+        $("#requests").css("display","block");
+        $("#requestsBtn").css("background-color","rgb(70, 82, 107)");
+        $("#conversasBtn").css("background-color","rgb(85,101,132)");
+    }
+        
 }
