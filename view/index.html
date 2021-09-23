@@ -35,8 +35,12 @@
                         <button id="requestsBtn" class="sideMenuBtn"  onclick="switchMenu(false)">Pedidos de amizade</button>
                     
                     </div>
-                    <div id="requests" style="display: none;">
-                        <div id="boba" class="chatRectangle" style="display: flex;cursor: pointer;">
+                    <div id="requests" style="display: none;" >
+                        <div id="createRequest" style="padding: 2%;background-color: rgb(12,153,90); cursor: pointer; display: flex;" onclick="alert('placeHolder add')">
+                            <img src="./stylesheets/resources/request_add.svg" style="width: 40px;cursor: pointer;" class="filter-white"></img>
+                            <label style="font-size: x-large;cursor: pointer ;margin-left: 2%; color: white;"> Adicionar um amigo </label>
+                        </div>
+                        <div id="baseRequest" class="chatRectangle" style="display: flex;cursor: pointer;">
                             <div id="pictureDiv" style="width: fit-content;height: fit-content;display: block;position: relative;">
                                 <img src="./stylesheets/resources/usercircle.png" style="display: flex;display: block;height: 100%; min-width: 5vw; max-height: 5vw;min-height: 10vh;">
                                 
