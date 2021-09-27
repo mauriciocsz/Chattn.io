@@ -6,6 +6,7 @@ const router = express.Router();
 const authController = require('./../controller/auth')
 const messageController = require('./../controller/message')
 const middlewares = require('./../controller/middleware')
+const relationshipController = require('./../controller/relationships')
 
 router.use(express.json());
 router.use(express.urlencoded({extended: true}));
@@ -40,5 +41,7 @@ router.post('/sendMessage', messageController.send)
 const socket = require('./../socket/connection')
 
 router.post('/identification', socket.joinChats)
+
+router.post('/friendRequest', relationshipController.friendRequest)
 
 module.exports = router;

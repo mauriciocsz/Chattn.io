@@ -24,4 +24,10 @@ async function registerNewUser(nome, senha, public, private){
     }
 }
 
-module.exports = {retrieveUserByName,registerNewUser}
+// Checks if an user exists
+async function checkUser(nome){
+    data = await query("select count(*) from tb_users where nome = $1",[nome]);
+    return data.rows[0].count;
+}
+
+module.exports = {retrieveUserByName,registerNewUser, checkUser}
