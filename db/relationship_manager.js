@@ -6,6 +6,12 @@ async function getRelations(user){
     return relations.rows;
 }
 
+async function getRequests(user){
+    let relations = await query('SELECT * FROM friend_requests WHERE reciever=$1',[user]);
+
+    return relations.rows;
+}
+
 async function newRelation(user1,user2){
     let order = [user1,user2].sort()
     await query('INSERT INTO relationship values($1,$2)',[order[0],order[1]])
@@ -37,4 +43,31 @@ async function newFriendRequest(sender,reciever){
 
 }
 
-module.exports = {getRelations, newRelation, newFriendRequest}
+// Accepts the friend request and adds user's relationship
+async function acceptFriendRequest(sender,reciever){
+    // First we see if this request has already been made
+    let confirmRequest = await query ('select count(*) from friend_requests WHERE sender=$1 AND reciever=$2',[sender,reciever]);
+    
+    if(confirmRequest==0)
+        return false;
+
+    // Delete the request and any requests involving both users
+    try{
+        await query('DELETE from friend_requests WHERE (sender=$1 AND reciever=$2) OR (sender=$2 AND reciever=$1)',[sender,reciever]);
+    
+        await newRelation(sender,reciever);
+
+        return true
+    }catch(e){
+        return false;
+    }
+}
+
+// Denies the friend request, deleting it from the table
+async function denyFriendRequest(sender,reciever){
+    await query('DELETE from friend_requests WHERE sender=$1 AND reciever=$2',[sender,reciever]);
+
+    return true;
+}
+
+module.exports = {getRelations,getRequests, newRelation, newFriendRequest,acceptFriendRequest,denyFriendRequest}

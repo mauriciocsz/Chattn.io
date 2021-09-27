@@ -44,4 +44,8 @@ router.post('/identification', socket.joinChats)
 
 router.post('/friendRequest', relationshipController.friendRequest)
 
+router.post('/acceptRequest', relationshipController.acceptRequest)
+
+router.post('/denyRequest', relationshipController.denyRequest)
+
 module.exports = router;

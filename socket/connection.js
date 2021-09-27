@@ -22,6 +22,7 @@ function connect(){
 // TODO: put the requisition part of this
 // function in a 'controller
 async function joinChats(req, res){
+    // TODO: check if the socket ID recieved is valid before doing anything
     const relMann = require('./../db/relationship_manager')
 
     let socket_id = req.body.id;
@@ -63,6 +64,13 @@ async function joinChats(req, res){
         socket.to(relations[x].user1 +"_"+relations[x].user2).emit("roomJoined", user);
         
     }
+
+    // Gets all friend requests and puts them into an array
+    let friendRequests = (await relMann.getRequests(user)).map(value =>{
+        return value.sender;
+    }) ;
+
+
     // On disconnection, tell every room that you've logged off
     socket.on('disconnecting',()=>{
         for(let room of socket.rooms)
@@ -70,7 +78,7 @@ async function joinChats(req, res){
         
     })
 
-    socket.emit('recieveFriends',relationsArray, relationsOnline);
+    socket.emit('recieveFriends',relationsArray, relationsOnline, friendRequests);
 
     res.sendStatus(200);
 }

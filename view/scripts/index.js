@@ -1,4 +1,7 @@
 const socket = io();
+
+// TODO: somehow change this ID so I can more accurately know who
+// sent the message
 //Random ID that our questions will have
 let myid = Math.floor(Math.random() * 10000);
 
@@ -56,8 +59,9 @@ socket.on('recieveMsg', (msg,id,room) =>{
 })
 
 // Recieves all friends and generate the chat for each one of them
-socket.on('recieveFriends', (relations, onlineStatus) => {
+socket.on('recieveFriends', (relations, onlineStatus, requests) => {
     relations.forEach( (relation, index) => genNewChat(relation,onlineStatus[index]));
+    requests.forEach(request => genNewRequest(request))
     loadChat(relations[0])
 })
 
@@ -81,7 +85,8 @@ function sendMsg(){
     })
 }
 
-//Creates a new message in the chat
+// Creates a new message in the chat and puts the rectangle on the left
+// at the top of the list (since it's the newest message)
 function newMsg(user, data, valor, id){
 
     if (id==undefined){
@@ -115,7 +120,7 @@ function newMsg(user, data, valor, id){
     let chatBox = $("#"+data["user"]);
 
     // TODO: add a notification appearence to the rectangle
-    chatBox.insertBefore($(".chatRectangle").first());
+    chatBox.insertBefore($("#chats").find(".chatRectangle").first());
 
     //TODO: change this length based on the screen size
     data["msg"]= prefix+data["msg"]
@@ -174,6 +179,17 @@ function genNewChat(relation, onlineStatus){
     rectangle.appendTo("#chats");
 }
 
+function genNewRequest(request){
+    let rectangle =$("#baseRequest").clone();
+    rectangle.attr("id",""+request);
+    rectangle.css("display","flex")
+    rectangle.find(".text").text("Deseja conversar!");
+    rectangle.find(".nameUser").text(""+request);
+    rectangle.find("#confirmBtn").attr("onclick","acceptFriendRequest('"+request+"')")
+    rectangle.find("#denyBtn").attr("onclick","denyFriendRequest('"+request+"')")
+    rectangle.appendTo("#requests");
+}
+
 function loadChat(user){
 
     let rectangle = $("#"+user);
@@ -189,6 +205,46 @@ function loadChat(user){
     $(".chatRectangle").css("background-color","white")
     rectangle.css("background-color","rgb(226, 226, 226)")
     chat.css("display","block");
+}
+
+function acceptFriendRequest(user){
+    
+    // POST
+    $.ajax({
+        url:"/acceptRequest",
+        type:'post',
+        data:{
+            sender:user
+        },
+        success: () => {
+            alert("Convite aceito!")
+            $("#requests").find("#"+user).remove()
+        },
+        error: ()=>{
+            alert('Um erro ocorreu! Tente novamente mais tarde.')
+        }
+
+    })
+    
+}
+
+function denyFriendRequest(user){
+    
+    $.ajax({
+        url:"/denyRequest",
+        type:'post',
+        data:{
+            sender:user
+        },
+        success: () => {
+            $("#requests").find("#"+user).remove()
+        },
+        error: ()=>{
+            alert('Um erro ocorreu! Tente novamente mais tarde.')
+        }
+
+    })
+    
 }
 
 //Creates the chat where all the messages will reside
@@ -217,7 +273,6 @@ function switchMenu(menu){
     }
         
 }
-
 
 function sendFriendRequest(event){
 
