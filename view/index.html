@@ -36,9 +36,11 @@
                     
                     </div>
                     <div id="requests" style="display: none;" >
-                        <div id="createRequest" style="padding: 2%;background-color: rgb(12,153,90); cursor: pointer; display: flex;" onclick="alert('placeHolder add')">
+                        <div id="createRequest" style="padding: 2%;background-color: rgb(12,153,90); cursor: pointer; display: flex;" onclick="$('#addText').css('display','none'); $('#addInput').css('display','block');$('#addBtn').css('display','block');">
                             <img src="./stylesheets/resources/request_add.svg" style="width: 40px;cursor: pointer;" class="filter-white"></img>
-                            <label style="font-size: x-large;cursor: pointer ;margin-left: 2%; color: white;"> Adicionar um amigo </label>
+                            <label id="addText" style="font-size: x-large;cursor: pointer ;margin-left: 2%; color: white;"> Adicionar um amigo </label>
+                            <input id="addInput" type="text" style="display: none; margin:2%">
+                            <button id="addBtn"style="margin:2%; border: none; display:none;" onclick="sendFriendRequest(event)">Enviar</button>
                         </div>
                         <div id="baseRequest" class="chatRectangle" style="display: flex;cursor: pointer;">
                             <div id="pictureDiv" style="width: fit-content;height: fit-content;display: block;position: relative;">

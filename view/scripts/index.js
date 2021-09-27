@@ -217,3 +217,30 @@ function switchMenu(menu){
     }
         
 }
+
+
+function sendFriendRequest(event){
+
+    event.stopPropagation();
+    if($("#addInput").val()!=''){
+        // POST
+        $.ajax({
+            url:"/friendRequest",
+            type:'post',
+            data:{
+                reciever: $("#addInput").val()
+            },
+            success: () => {
+                alert("Pedido de amizade enviado!")
+                $("#addInput").val('');
+                $("#addInput").css("display","none");
+                $("#addBtn").css("display","none");
+                $("#addText").css("display","block");
+            },
+            error: ()=>{
+                alert('Um erro ocorreu! Tente novamente mais tarde.')
+            }
+
+        })
+    }
+}
