@@ -11,11 +11,12 @@ const relationshipController = require('./../controller/relationships')
 router.use(express.json());
 router.use(express.urlencoded({extended: true}));
 
+router.use(express.static(path.resolve(__dirname+'/../view')));
+
 router.get('/', (req,res) =>{
-    res.sendFile(path.resolve( __dirname+"/../view/index.html"));
+    res.render("index.html");
 })
 
-router.use(express.static(path.resolve(__dirname+'/../view')));
 
 router.post('/register', authController.register)
 
