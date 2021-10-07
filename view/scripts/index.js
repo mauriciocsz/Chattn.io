@@ -8,6 +8,8 @@ let myid = Math.floor(Math.random() * 10000);
 //Current chat open on-screen
 let currentUser ="";
 
+let onlineFriends =0;
+
 socket.on('identification', () =>{
 
     $.ajax({
@@ -26,10 +28,12 @@ socket.on('identification', () =>{
 // enters or leaves the chat
 socket.on('roomJoined', (user)=>{
     $("#"+user).find(".dot").css("display","flex");
+    $("#conversasBtn").text('Conversas ('+(++onlineFriends)+')')
 })
 
 socket.on('roomLeft', (user)=>{
     $("#"+user).find(".dot").css("display","none");
+    $("#conversasBtn").text('Conversas ('+(--onlineFriends)+')')
 })
 
 socket.on('recieveMsg', (msg,id,room) =>{
@@ -63,6 +67,7 @@ socket.on('recieveFriends', (relations, onlineStatus, requests) => {
     relations.forEach( (relation, index) => genNewChat(relation,onlineStatus[index]));
     requests.forEach(request => genNewRequest(request))
     loadChat(relations[0])
+    $("#conversasBtn").text('Conversas ('+(onlineFriends)+')')
 })
 
 function sendMsg(){
@@ -174,8 +179,11 @@ function genNewChat(relation, onlineStatus){
 
     rectangle.find(".nameUser").text(""+relation);
 
-    if(onlineStatus)
+    if(onlineStatus){
         rectangle.find(".dot").css("display","flex");
+        onlineFriends++;
+    }
+        
     rectangle.appendTo("#chats");
 }
 
