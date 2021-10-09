@@ -15,20 +15,23 @@
             <label id="success" style="font-size: 2vw;color: green;display: none;margin-bottom: 1%;">Conta criada com sucesso</label>
             <label id="failure"style="font-size: 2vw;color: rgb(231, 38, 32);display: none;margin-bottom: 1%;">Um erro ocorreu, tente novamente.</label>
             
-            Juntar-se
+            <label id="title">Juntar-se</label>
             
             <div style="margin-top: 8%;display: block;">
                 <label style="font-size: 1vw;">Nome de usuário</label><br>
                 <input type='text' id='username' style="height:8%;font-size: xx-large; margin-bottom: 5%;"><br>
                 <label style="font-size: 1vw;">Senha</label><br>
                 <input type='password' id='pass'style="height:8%;font-size: xx-large;margin-bottom: 5%;"><br>
-                <label style="font-size: 1vw;">Confirmar Senha</label><br>
-                <input type='password' id='passCheck'style="height:8%;font-size: xx-large;margin-bottom: 5%;"><br>
-                <button onclick="register()" style="width: 20%;height: 10%;margin-bottom: 5%;background-color: #ffce44;margin: 0;outline: none;border: none;margin-bottom: 5%; cursor: pointer;"> Criar conta</button><br>
+                <div id="confirmPass">
+                    <label style="font-size: 1vw;">Confirmar Senha</label><br>
+                    <input type='password' id='passCheck'style="height:8%;font-size: xx-large;margin-bottom: 5%;"><br>
+                </div>
+                
+                <button id="actionButton" onclick="register()" style="width: 20%;height: 10%;margin-bottom: 5%;background-color: #ffce44;margin: 0;outline: none;border: none;margin-bottom: 5%; cursor: pointer;"> Criar conta</button><br>
                 <button onclick="logout()" style="width: 20%;height: 10%;margin-bottom: 5%; display: none;"> Logout</button>
                 
                 
-                <label style="font-size: 1vw; cursor: pointer;">Já é cadastrado? Entrar.</label><br>
+                <label id="switch" style="font-size: 1vw; cursor: pointer;" onclick="switchLogin()">Já é cadastrado? Entrar.</label><br>
                 
             </div>
         </div>

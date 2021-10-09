@@ -1,22 +1,21 @@
 //Placeholder login function
 function postLogin(){
 
-    let user = $('#login').val()
+    let user = $('#username').val()
     let pwd = $('#pass').val()
 
     $.ajax({
         url:"/login",
-        dataType:"json",
         type:"post",
         data:{
             nome: user,
             senha: pwd
         },
         success:function(result){
-
-        },
-        complete:function(result){
-            console.log(result)
+            window.location.href = "/chat";
+        },error:()=>{
+            $("#card").css("padding-top","2%")
+            $("#failure").css("display","block");
         }
     })
 }
@@ -60,4 +59,14 @@ function register(){
         $("#card").css("padding-top","2%")
         $("#failure").css("display","block");
     }
+}
+
+function switchLogin(){
+    $("#title").text("Entrar")
+    $("#actionButton").text("Entrar")
+    
+    $("#actionButton").attr("onclick","postLogin()")
+    $("#confirmPass").css("display","none")
+    $("#switch").css("display", "none")
+
 }
