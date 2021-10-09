@@ -11,10 +11,13 @@ const relationshipController = require('./../controller/relationships')
 router.use(express.json());
 router.use(express.urlencoded({extended: true}));
 
-router.use("/",express.static(path.resolve(__dirname+'/../view')));
+router.use("/",express.static(path.resolve(__dirname+'/../view'),{index:'_'}));
 
 router.get('/', (req,res) =>{
-    res.sendFile(path.resolve( __dirname+'/../view/index.html'))
+    if(req.session && req.session.username)
+        res.redirect('/chat');
+    else
+        res.sendFile(path.resolve( __dirname+'/../view/index.html'))
 })
 
 router.post('/register', authController.register)
