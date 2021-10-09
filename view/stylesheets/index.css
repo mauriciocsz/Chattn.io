@@ -1,0 +1,32 @@
+.bg{
+    background: no-repeat center cover top fixed;
+    background-color: #5e666d;
+    background-image:url(/stylesheets/resources/group-talk.jpg);
+    background-position: left 5%;
+    background-size:cover ;
+    margin:0;
+}
+
+#card{
+    
+    width: 45%;
+    height: 100%;
+    display: flex;
+    float: right;
+    margin:0;
+    border:none !important;
+    outline: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom:0;
+    background-color: whitesmoke;
+    box-shadow: -10px 10px 37px -11px rgba(0,0,0,0.51);
+    -webkit-box-shadow: -10px 10px 37px -11px rgba(0,0,0,0.51);
+    -moz-box-shadow: -10px 10px 37px -11px rgba(0,0,0,0.51);
+}
+
+@font-face {
+    font-family: 'MyOwn';
+    src: url(/stylesheets/fonts/Azonix.otf);
+}
