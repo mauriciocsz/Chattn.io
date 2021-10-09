@@ -11,12 +11,11 @@ const relationshipController = require('./../controller/relationships')
 router.use(express.json());
 router.use(express.urlencoded({extended: true}));
 
-router.use(express.static(path.resolve(__dirname+'/../view')));
+router.use("/",express.static(path.resolve(__dirname+'/../view')));
 
 router.get('/', (req,res) =>{
-    res.render("index.html");
+    res.sendFile(path.resolve( __dirname+'/../view/index.html'))
 })
-
 
 router.post('/register', authController.register)
 
@@ -29,6 +28,10 @@ router.post('/logout', authController.logout)
 // If the user's session is null/undefined he 
 // won't be able to access any routes below.
 router.use(middlewares.sessionAuth);
+
+router.get('/chat',(req,res) => {
+    res.sendFile(path.resolve( __dirname+'/../view/chat.html'))
+})
 
 //Placeholder route just to check an user's session
 router.get('/check', (req,res)=>{

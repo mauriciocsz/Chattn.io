@@ -4,81 +4,16 @@
         <title>Chattn.io</title>
     </head>
 
-    <body class="bg" >
-        <div style="display: none;">
+    <body>
+        <div">
             <input type='text' id='login'>
             <input type='password' id='pass'>
             <button onclick="postLogin()"> Logar</button>
             <button onclick="logout()"> Logout</button>
         </div>
-            <div class="chatBody">
-                <div id="baseCurrChat" class="currentChat" style="width: 70%;margin: 0;float: right;display: none;">
+        Placeholder
 
-                
-                <div class="messagesDiv">
-                    <br>
-                    <div class="messageServer" style="width:0; height: 0; min-width: 0; min-height: 0; padding: 0;">
-                        
-                    </div>
-                </div>
-                
-
-                </div>
-
-                <div class="boxArea" style="margin-left:30%">
-                    <textarea class="form-control" id="textBox" rows="1" placeholder="Digite algo!"  maxlength="6000"></textarea>
-                    <button id='btn_send' onclick="sendMsg()">Enviar</button>
-                </div>
-                <div class="sideMenu" >
-                    <div id="selectionDiv">
-                        <button id="conversasBtn"  class="sideMenuBtn" style="background-color: rgb(70, 82, 107);" onclick="switchMenu(true)">Conversas (0)</button>
-                        <button id="requestsBtn" class="sideMenuBtn"  onclick="switchMenu(false)">Pedidos de amizade</button>
-                    
-                    </div>
-                    <div id="requests" style="display: none;" >
-                        <div id="createRequest" style="padding: 2%;background-color: rgb(12,153,90); cursor: pointer; display: flex;" onclick="$('#addText').css('display','none'); $('#addInput').css('display','block');$('#addBtn').css('display','block');">
-                            <img src="./stylesheets/resources/request_add.svg" style="width: 40px;cursor: pointer;" class="filter-white"></img>
-                            <label id="addText" style="font-size: x-large;cursor: pointer ;margin-left: 2%; color: white;"> Adicionar um amigo </label>
-                            <input id="addInput" type="text" style="display: none; margin:2%">
-                            <button id="addBtn"style="margin:2%; border: none; display:none;" onclick="sendFriendRequest(event)">Enviar</button>
-                        </div>
-                        <div id="baseRequest" class="chatRectangle" style="display: none;cursor: pointer;">
-                            <div id="pictureDiv" style="width: fit-content;height: fit-content;display: block;position: relative;">
-                                <img src="./stylesheets/resources/usercircle.png" style="display: flex;display: block;height: 100%; min-width: 5vw; max-height: 5vw;min-height: 10vh;">
-                                
-                            </div>
-                        
-                            <div class="chatRectangleText" style="margin:2.5%;margin-left: 5%;">
-                                <label class="nameUser" style="margin-left: 0;margin-bottom: 0;font-size:1.5vw; width: 100%;cursor: pointer;">User</label><br>
-                                <label class="text" style="font-size: 1.25vw;opacity: 50%;width: 100%;cursor: pointer;">Deseja conversar!</label>
-                            </div>
-
-                            <img id="confirmBtn" src="./stylesheets/resources/request_confirm.svg" style="width: 50px; margin: 3%;" class="filter-green" onclick="alert('PlaceHolder Accept')"></img>
-                            <img id="denyBtn" src="./stylesheets/resources/request_deny.svg" style="width: 50px;" class="filter-red"onclick="alert('PlaceHolder Deny')"></img>
-                        </div>
-                    </div>
-                    <div id="chats">
-                        <div id="baseChat" class="chatRectangle" style="display: none;cursor: pointer;">
-                            <div id="pictureDiv" style="width: fit-content;height: fit-content;display: block;position: relative;">
-                                <span class="dot" ></span>
-                                <img src="./stylesheets/resources/usercircle.png" style="display: flex;display: block;height: 100%; min-width: 5vw; max-height: 5vw;min-height: 10vh;">
-                            </div>
-                        
-                            <div class="chatRectangleText" style="margin:2.5%;margin-left: 5%;">
-                                <label class="nameUser" style="margin-left: 0;margin-bottom: 0;font-size:1.5vw; width: 100%;cursor: pointer;">Nome da Pessoa</label><br>
-                                <label class="text" style="font-size: 1.25vw;opacity: 50%;width: 100%;cursor: pointer;">Hmmm</label>
-                            </div>
-                        
-                        </div>
-                    </div>
-                </div>
-        </div>
-        
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src = "/socket.io/socket.io.js"></script>
-    <script src ="scripts/index.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src ="/scripts/index.js"></script>
     </body>
 </html>
