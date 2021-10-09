@@ -28,3 +28,36 @@ function logout(){
         type:"post"
     })
 }
+
+function register(){
+    let username = $("#username").val()
+    let password = $("#pass").val()
+    let passwordCheck = $("#passCheck").val()
+    $("#success").css("display","none");
+    $("#failure").css("display","none");
+
+    $("#card").css("padding-top","5%")
+    
+    // Only proceeds if all requirements are met
+    if(username!="" && password!="" && passwordCheck!="" && password==passwordCheck){
+        $.ajax({
+            url:"/register",
+            type:"post",
+            data:{
+                nome: username,
+                senha: password
+            },
+            success:() =>{
+                $("#card").css("padding-top","2%")
+                $("#success").css("display","block");
+            },
+            error:()=>{
+                $("#card").css("padding-top","2%")
+                $("#failure").css("display","block");
+            }
+        })
+    }else{
+        $("#card").css("padding-top","2%")
+        $("#failure").css("display","block");
+    }
+}
