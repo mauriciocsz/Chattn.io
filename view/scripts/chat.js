@@ -120,6 +120,11 @@ function newMsg(user, data, valor, id){
     lbl.text(data["msg"])
     text.append(lbl);
 
+     let search = $(".chatBody").find("#chat_"+data["user"])
+     if(!search.length){
+         createChat(data["user"]);
+     }
+
     let chat = $("#chat_"+data["user"]);
     let chatBox = $("#"+data["user"]);
 
@@ -204,8 +209,7 @@ function loadChat(user){
 
     let chat = $(".chatBody").find("#chat_"+user)
     if(!chat.length){
-        createChat(user);
-        return;
+        chat = createChat(user);
     }
 
     $(".chatBody").find(".currentChat").css("display","none");
@@ -261,7 +265,7 @@ function createChat(user){
     newChat.attr("id", "chat_"+user);
     newChat.appendTo(".chatBody");
 
-    loadChat(user);
+    return newChat;
 
 }
 
