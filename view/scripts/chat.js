@@ -4,10 +4,14 @@ const socket = io();
 //Random ID that our questions will have
 let myid = Math.floor(Math.random() * 10000);
 
+// Object that saves all messages the user has sent and havent recieved a confirmation
+let idTable = {}
+
 //Current chat open on-screen
 let currentUser ="";
 
 let onlineFriends =0;
+let chatCount=0;
 
 socket.on('identification', () =>{
 
@@ -48,8 +52,9 @@ socket.on('recieveMsg', (msg,id,room) =>{
             room: room
         },
         success:function(result){
-                if(id==myid){
+                if(idTable[""+id]){
                     $('#'+id).remove();
+                    delete idTable[""+id];
                     newMsg(1,result);
                     return
                 }
@@ -57,7 +62,6 @@ socket.on('recieveMsg', (msg,id,room) =>{
             newMsg(0,result);
         },
         complete:function(result){
-            console.log(result)
         }
     })
 
@@ -77,8 +81,17 @@ function sendMsg(){
     if(!msg.trim().length)
         return;
 
+    // We generate an ID, using a random number, the message's last digit and putting
+    // the chat index at the last digit
+    myid = CryptoJS.MD5(msg.slice(msg.length-1)+Math.floor(Math.random() * 10000));
+    while(idTable[""+myid]){
+        myid = CryptoJS.MD5(msg+Math.floor(Math.random() * 10000));
+    }
+    let thisID = myid+""+$("#"+currentUser).attr("value");
+    idTable[""+thisID] = true
+
     $('#textBox').val("")
-    newMsg(1,{"msg":msg},1,myid);
+    newMsg(1,{"msg":msg,"user":currentUser},1,thisID);
 
     $.ajax({
         url:"/sendMessage",
@@ -87,7 +100,14 @@ function sendMsg(){
         data:{
             msg,
             reciever: currentUser,
-            id: myid
+            id: thisID
+        },error:()=>{
+            // If the message could not be sent for any reason, show an error
+            let message = $("#chat_"+currentUser).find("#"+thisID)
+            message.css("background-color","red")
+            message.css("opacity","1")
+            message.append('<svg version="1.1" id="icons_1_" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 128 128" style="enable-background:new 0 0 128 128;width: 30px; margin: 3%;" class="filter-white" xml:space="preserve"><style>.st0{display:none}.st1{display:inline}.st2{fill:#0a0a0a}</style><g id="row1_1_"><g id="_x33__2_"><path class="st2" d="M64 32.2c-4.4 0-8 3.3-8 7.3v24.8c0 4.1 3.6 7.3 8 7.3s8-3.3 8-7.3V39.5c0-4.1-3.6-7.3-8-7.3zM64 .3C28.7.3 0 28.8 0 64s28.7 63.7 64 63.7 64-28.5 64-63.7S99.3.3 64 .3zm0 121C32.2 121.3 6.4 95.7 6.4 64 6.4 32.3 32.2 6.7 64 6.7s57.6 25.7 57.6 57.3c0 31.7-25.8 57.3-57.6 57.3zm0-40.1c-4.4 0-8 3.3-8 7.3s3.6 7.3 8 7.3 8-3.3 8-7.3-3.6-7.3-8-7.3z" id="alert_transparent"/></g></g></svg>')
+            delete idTable[""+thisID];
         }
     })
 }
@@ -95,7 +115,6 @@ function sendMsg(){
 // Creates a new message in the chat and puts the rectangle on the left
 // at the top of the list (since it's the newest message)
 function newMsg(user, data, valor, id){
-
     if (id==undefined){
         id = " " 
     }
@@ -145,29 +164,6 @@ function newMsg(user, data, valor, id){
     chat.find(".messagesDiv").scrollTop(chat.find(".messagesDiv").prop("scrollHeight"));
 }
 
-//Placeholder login function
-function postLogin(){
-
-    let user = $('#login').val()
-    let pwd = $('#pass').val()
-
-    $.ajax({
-        url:"/login",
-        dataType:"json",
-        type:"post",
-        data:{
-            nome: user,
-            senha: pwd
-        },
-        success:function(result){
-
-        },
-        complete:function(result){
-            console.log(result)
-        }
-    })
-}
-
 function logout(){
     $.ajax({
         url:"/logout",
@@ -183,6 +179,7 @@ function genNewChat(relation, onlineStatus){
     rectangle.css("display","flex")
     
     rectangle.find(".text").text("");
+    rectangle.attr("value",chatCount++);
 
     rectangle.find(".nameUser").text(""+relation);
 
