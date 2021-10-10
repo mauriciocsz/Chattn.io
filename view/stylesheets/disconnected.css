@@ -1,0 +1,8 @@
+.bg{
+    background: no-repeat center cover top fixed;
+    background-color: #5e666d;
+    background-image:url(/stylesheets/resources/disconnected.jpg);
+    background-position: center;
+    background-size:cover ;
+    margin:0;
+}

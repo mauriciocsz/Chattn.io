@@ -31,6 +31,20 @@ async function joinChats(req, res){
     //Gets the user's socket
     let socket = (io.sockets['sockets']).get(socket_id);
 
+    // Check if the same user is already connected/has another instance, 
+    // if he is, we need to disconnect that instance before connecting this one.
+    // We achieve this by checking the private room that the user has.
+    const rooms = io.of("/").adapter.rooms;
+
+    // If another instance is connected, find it and disconnect it
+    if(rooms.get(user)!=undefined){
+        let roomSet = rooms.get(user)
+
+        let socketMap = io.sockets['sockets'];
+        let prevSocket = socketMap.get(roomSet.values().next().value);
+        prevSocket.disconnect(0);
+    }
+        
     // Make the user join a private room with his name 
     // so we can find him more easily in the future.
     socket.join(user)
@@ -49,9 +63,6 @@ async function joinChats(req, res){
 
     for(let x=0;x<relations.length;x++){
         const rooms = io.of("/").adapter.rooms;
-
-        // TODO: this doesn't work when the client has multiple instances open
-        // I need to fix that, either disabling multiple instances or some other way.
 
         // If the room is already created, then the other user is online
         if(rooms.get(relations[x].user1 +"_"+relations[x].user2)==undefined)

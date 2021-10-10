@@ -21,6 +21,9 @@ socket.on('identification', () =>{
     })
 })
 
+socket.on("disconnect", () => {
+    window.location.href = "/disconnected";
+  });
 
 // Messages responsible for checking if an user is
 // online or not, they are notified as soon as a person

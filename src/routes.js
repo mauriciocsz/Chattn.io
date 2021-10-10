@@ -36,6 +36,10 @@ router.get('/chat',(req,res) => {
     res.sendFile(path.resolve( __dirname+'/../view/chat.html'))
 })
 
+router.get('/disconnected',(req,res)=>{
+    res.sendFile(path.resolve( __dirname+'/../view/disconnected.html'))
+})
+
 //Placeholder route just to check an user's session
 router.get('/check', (req,res)=>{
     res.json("olá, "+req.session.username);
