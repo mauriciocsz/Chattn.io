@@ -1,6 +1,5 @@
 const socket = io();
 
-// TODO: somehow change this ID so I can more accurately know who sent the message
 //Random ID that our questions will have
 let myid = Math.floor(Math.random() * 10000);
 
@@ -167,8 +166,10 @@ function newMsg(user, data, valor, id){
 function logout(){
     $.ajax({
         url:"/logout",
-        dataType:"json",
-        type:"post"
+        type:"post",
+        success:()=>{
+            window.location.href = "/disconnected";
+        }
     })
 }
 // Creates the chat rectangle
